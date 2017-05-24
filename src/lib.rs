@@ -56,6 +56,7 @@ pub struct KmerCounter<K> {
     ranks: RankTransform,
     bits_per_letter: usize,
     bits2char: VecMap<u8>,
+    pub bytes_per_kmer: usize,
 }
 
 pub fn max_small_k(alphabet: &Alphabet) -> usize {
@@ -101,6 +102,7 @@ impl KmerCounter<Large> {
                ranks,
                bits_per_letter,
                bits2char,
+               bytes_per_kmer: k * bits_per_letter / 8,
            })
     }
 
@@ -130,6 +132,7 @@ impl KmerCounter<Small> {
                ranks,
                bits_per_letter,
                bits2char,
+               bytes_per_kmer: k * bits_per_letter / 8,
            })
     }
 
