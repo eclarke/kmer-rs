@@ -210,14 +210,14 @@ impl<'a, T: TextIterator<'a>> Kmers<'a, T, Small> {
 }
 
 impl<'a, T: TextIterator<'a>> Iterator for Kmers<'a, T, Large> {
-    type Item = Vec<u8>;
+    type Item = (Vec<u8>, BigUint);
 
-    fn next(&mut self) -> Option<Vec<u8>> {
+    fn next(&mut self) -> Option<(Vec<u8>, BigUint)> {
         match self.text.next() {
             Some(a) => {
                 let b = self.ranks.get(*a);
                 self.push(b);
-                Some(self.kmer())
+                Some((self.kmer(), self.kmer.clone()))
             }
             None => None,
         }
@@ -225,14 +225,14 @@ impl<'a, T: TextIterator<'a>> Iterator for Kmers<'a, T, Large> {
 }
 
 impl<'a, T: TextIterator<'a>> Iterator for Kmers<'a, T, Small> {
-    type Item = Vec<u8>;
+    type Item = (Vec<u8>, usize);
 
-    fn next(&mut self) -> Option<Vec<u8>> {
+    fn next(&mut self) -> Option<(Vec<u8>, usize)> {
         match self.text.next() {
             Some(a) => {
                 let b = self.ranks.get(*a);
                 self.push(b);
-                Some(self.kmer())
+                Some((self.kmer(), self.kmer))
             }
             None => None,
         }
